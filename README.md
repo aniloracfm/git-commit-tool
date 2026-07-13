@@ -1,2 +1,3 @@
-# Go-Labs
-A pratical Go laboratory. Here, fundamentals are applied to the real world to solve real problems. The objective is to evolve it as I delve deeper into the language internals and record my progress. 
+# Git Commit Tool
+The git commit tool is a command-line interface (CLI) application developed in Go to automate and standardize the commit process. Based on staged changes, the tool suggests standardized commit messages adhering to conventional commit guidelines.
+
