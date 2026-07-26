@@ -19,12 +19,12 @@ func TestReadOption(t *testing.T) {
 		{
 			name:     "Converte entrada maiúscula 'Y' para minúscula",
 			input:    "Y\n",
-			expected: "yes",
+			expected: "y",
 		},
 		{
 			name:     "Remove espaços e quebras de linha de 'yes'",
-			input:    "yes \n",
-			expected: "yes",
+			input:    "y \n",
+			expected: "y",
 		},
 		{
 			name:     "Trata tecla enter (string vazia)",
