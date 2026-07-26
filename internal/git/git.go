@@ -1,23 +1,43 @@
 package git
 
 import (
-	"fmt"
+	"bytes"
+	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/aniloracfm/git-commit-tool/internal/messages"
 )
 
 // GetStageDiff executa o comando 'git diff --cached'
-// para obter as diferenças entre os arquivos que foram adicionados
-// ao índice (staged) e a última versão confirmada (commit).
-// Ele retorna a saída do comando como uma string e um erro,
-// caso ocorra algum problema durante a execução do comando.
-func GetStageDiff() (string, error) {
+// Retorna o conteúdo a ser exibido e se existem alterações.
+// Se tiver vazio, uma mensagem é exibida, lembrando ao usuario o uso do
+// 'git add .' antes.
+func GetStageDiff() (content string, hasChanges bool, err error) {
 	cmd := exec.Command("git", "diff", "--cached")
 
-	output, err := cmd.Output()
-	if err != nil {
-		return "", fmt.Errorf(messages.GitErrorGitDiff, err)
+	var output bytes.Buffer
+	cmd.Stdout = &output
+
+	if err := cmd.Run(); err != nil {
+		return "", false, err
 	}
-	return string(output), nil
+
+	diff := strings.TrimSpace(output.String())
+
+	if diff == "" {
+		emptyMessage := messages.GitNoChangesFound + "\n" + messages.GitTipAdd
+		return emptyMessage, false, nil
+	}
+
+	return diff, true, nil
+}
+
+// Commit executa o comando 'git commit -m <message>' para criar um novo commit
+func Commit(message string) error {
+	cmd := exec.Command("git", "commit", "-m", message)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	return cmd.Run()
 }
