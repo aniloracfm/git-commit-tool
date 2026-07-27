@@ -6,7 +6,9 @@
 
 Maintaining a standardized commit history requires strict compliance with guidelines such as **Conventional Commits v1.0.0**. Inconsistent or vague messages impair change audits, issue tracking, and automated changelog or release workflows.
 
-To solve this, the Git Commit Tool is a Go-based CLI application that analyzes staged modifications (`git diff --cached`), enforces local payload limits, applies embedded system prompt rules (`go:embed`), issues requests to the Google Gemini language model (`gemini-flash-latest`), and provides an interactive terminal interface for developer review prior to commit execution
+To solve this, the Git Commit Tool is a Go-based CLI application that analyzes staged modifications (`git diff --cached`), enforces local payload limits, applies embedded system prompt rules (`go:embed`), issues requests to the Google Gemini language model (`gemini-flash-latest`), and provides an interactive terminal interface for developer review prior to commit execution.
+
+Starting from commit `2452e71`, all subsequent commits in this repository are generated using the Git Commit Tool, ensuring standardized adherence to the Conventional Commits specification throughout the project history.
   
 </div>
 
