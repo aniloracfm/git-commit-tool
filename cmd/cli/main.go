@@ -11,6 +11,7 @@ import (
 	"github.com/aniloracfm/git-commit-tool/internal/git"
 	"github.com/aniloracfm/git-commit-tool/internal/messages"
 	"github.com/joho/godotenv"
+	"github.com/manifoldco/promptui"
 )
 
 // readInput exibe o prompt e lê a entrada do usuário.
@@ -80,11 +81,17 @@ func main() {
 		// Aceitar a sugestão
 	case "e":
 		// Editar a sugestão
-		finalCommitMessage = readInput(reader, messages.MainPromptEditCommit)
-		if finalCommitMessage == "" {
-			fmt.Println(messages.MainCommitCanceled)
+		prompt := promptui.Prompt{
+			Label:   "Edit commit message",
+			Default: commitMessage,
+		}
+
+		result, err := prompt.Run()
+		if err != nil {
+			fmt.Printf("Edit canceled: %v\n", err)
 			return
 		}
+		finalCommitMessage = result
 	default:
 		fmt.Println(messages.MainCommitCanceled)
 		return
