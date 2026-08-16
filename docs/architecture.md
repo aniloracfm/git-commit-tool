@@ -8,7 +8,9 @@ Maintaining a standardized commit history requires strict compliance with guidel
 
 To solve this, the Git Commit Tool is a Go-based CLI application that analyzes staged modifications (`git diff --cached`), enforces local payload limits, applies embedded system prompt rules (`go:embed`), issues requests to the Google Gemini language model (`gemini-flash-latest`), and provides an interactive terminal interface for developer review prior to commit execution.
 
-Starting from commit `2452e71`, all subsequent commits in this repository are generated using the Git Commit Tool, ensuring standardized adherence to the Conventional Commits specification throughout the project history.
+To eliminate manual execution friction, the tool includes a setup automation script (`scripts/configurar-automacao.sh`) that safely injects a custom `git()` function into the user's shell profile (`~/.zshrc` or `~/.bashrc`). This integration intercepts `git add` execution to run the CLI instantly and present semantic commit suggestions within the developer's active workflow.
+
+Starting from commit `2452e71`, all subsequent commits in this repository are generated using the Git Commit Tool.
   
 </div>
 
@@ -18,27 +20,35 @@ Starting from commit `2452e71`, all subsequent commits in this repository are ge
 
 ```text
 git-commit-tool/
+├── bin/                                 # Compiled executable outputs
+│   └── commit-tool
 ├── cmd/
 │   └── cli/
 │       ├── main.go                      # Application entry point for the CLI
 │       └── main_test.go                 # Unit tests for CLI interaction logic
+├── docs/
+│   └── architecture.md                  # Technical specification and system design
 ├── internal/
 │   ├── ai/
+│   │   ├── prompts/
+│   │   │   └── conventional_commits.txt # System Prompt loaded via go:embed
 │   │   ├── constants.go                 # System limits, timeouts, and configuration values
 │   │   ├── gemini.go                    # AI API integration layer and HTTP execution
-│   │   ├── gemini_test.go               # Unit tests for AI validations and prompt creation
-│   │   └── prompts/
-│   │       └── conventional_commits.txt # System Prompt loaded via go:embed
+│   │   └── gemini_test.go               # Unit tests for AI validations and prompt creation
 │   ├── git/
 │   │   ├── git.go                       # Git command execution wrapper (captures staged diff)
 │   │   └── git_test.go                  # Unit tests for Git operations
 │   └── messages/
 │       └── messages.go                  # Application-wide constants, labels, and feedback messages
-├── bin/                                 # Compiled binary outputs (git-ignored)
-├── Makefile                             # Build, test, and execution automation commands
+├── scripts/
+│   └── config-automation.sh             # Shell automation script for git add hook
+├── .env                                 # Local environment secrets
 ├── .env.example                         # Environment variables configuration template
+├── .gitignore                           # Git exclusion patterns
 ├── go.mod                               # Go module definition
+├── go.sum                               # Go dependency checksums
 ├── LICENSE                              # MIT License
+├── Makefile                             # Build, test, and execution automation commands
 └── README.md                            # Project documentation
 ```
 

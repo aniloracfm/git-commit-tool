@@ -10,10 +10,10 @@ help:
 
 ## setup - Configura o ambiente de desenvolvimento.
 setup:
-	go mod download
-	go mod tidy
+	@chmod +x scripts/config-automation.sh
+	@bash scripts/config-automation.sh
 
-## run - Executa o projeto.
+## run - Executa o projeto - apenas para fins de teste.
 run:
 	@go run $(CLI_PATH)
 

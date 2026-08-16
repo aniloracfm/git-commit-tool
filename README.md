@@ -2,17 +2,18 @@
 
 <div style="text-align: justify;">
 
-A lightweight command-line interface **(CLI)** application developed in Go to **automate** and **standardize Git commit workflows** using Google Gemini.
-
-Based on staged modifications (`git diff --cached`), the tool generates semantic commit messages adhering strictly to the **Conventional Commits v1.0.0** specification.
-
 Maintaining a clean and standardized commit history ensures code traceability, improves code reviews, and unlocks automated changelog generation and release management.
+
+Keeping this in mind, **git-commit-tool** was developed as a lightweight command-line interface **(CLI)** application in Go to **automate** and **standardize Git commits** using Artificial Intelligence.
+
+The tool automatically analyzes your code changes to generate semantic commit messages adhering strictly to the **Conventional Commits v1.0.0** specification, eliminating the need to write commit messages manually.
 
 ---
 
 ## Features
 
 - **Conventional Commits Compliance:** Enforces semantic commit types (`feat`, `fix`, `docs`, `refactor`, `test`).
+- **Fully Automated Workflow:** Automatically triggers on `git add` to process repository changes and present ready-to-use semantic suggestions instantly.
 - **Dynamic Scope Ingestion:** Automatically includes parenthetical scope for single-module changes and omits it on multi-file diffs to prevent log clutter.
 - **Interactive Terminal Workflow:** Review generated messages, edit them inline, inspect diffs on demand, or cancel cleanly before committing.
 - **Fail-Fast Local Guardrails:** Blocks oversized diffs locally to ensure cost control and resource protection.
@@ -33,16 +34,22 @@ Maintaining a clean and standardized commit history ensures code traceability, i
 
 ## Configuration
 
-1. Create a `.env` file at the root of the project based on `.env.example`:
+**1. Create a `.env` file at the root of the project based on `.env.example`:**
 
 ```bash
 cp .env.example .env
 ```
 
-1. Add your Gemini API key inside `.env`:
+**2. Add your Gemini API key inside `.env`:**
 
 ```bash
 GEMINI_API_KEY=your_actual_api_key_here
+```
+
+**3. Install the shell integration:**
+
+```bash
+make setup
 ```
 
 ---
@@ -63,18 +70,7 @@ GEMINI_API_KEY=your_actual_api_key_here
    git add <file_path>
    ```
 
-**2. Run the tool via Makefile:**
-
-  ```bash
-  # Direct run
-  make run
-
-  # Build static binary to bin/commit-tool
-  make build
-  ./bin/commit-tool
-  ```
-
- **2.2. Interactive Workflow:**
+**1.1. Interactive Workflow:**
 
 - **Diff Inspection:**
 
@@ -83,7 +79,7 @@ GEMINI_API_KEY=your_actual_api_key_here
 
 - **Commit Action Selection:**
 
-  - **Accept**(`y`): Automatically executes `git commit -m "..."` with the suggested message.
+  - **Accept**(`y`): Executes the commit with the suggested conventional commit message.
   - **Edit**(`e`): Opens an inline prompt pre-filled with the suggestion for manual tweaks before committing.
   - **Reject**(`n`): Cancels the operation safely without modifying repository state.
 
